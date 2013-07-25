@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class
+        name="kr.pragmatic.snownote.core.SnowAttachment"
+        table="ATTACHMENTS"
+		lazy="false">
+        <id
+            name="id"
+            column="ID">
+            <generator class="native"/>
+        </id>
+		
+		<!-- springnote identifier -->
+		<property name="identifier" column="IDENTIFIER" />
+		<property name="name" column="NAME" />
+		<property name="size" column="SIZE" />
+		<property name="path" column="PATH" />
+		<property name="createdAt" column="CREATED_AT" type="timestamp"/>
+		<property name="created" column="CREATED" />
+		
+		<many-to-one name="page"
+                 class="kr.pragmatic.snownote.core.SnowPage"
+                 foreign-key="FK_PAGE_ID">
+			<column name="PAGE_ID"
+					not-null="false"/>
+		</many-to-one>
+    </class>
+
+</hibernate-mapping>

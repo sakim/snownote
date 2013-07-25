@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class
+        name="kr.pragmatic.snownote.core.SnowPage"
+        table="PAGES"
+		lazy="false">
+
+        <id
+            name="id"
+            column="ID">
+            <generator class="native"/>
+        </id>
+		
+		<!-- springnote identifier -->
+		<property name="identifier" column="IDENTIFIER" />
+		<property name="title" column="TITLE" />
+		<property name="contents" column="CONTENTS" type="text" />
+		<property name="tags" column="TAGS" />
+		<property name="createdAt" column="CREATED_AT" type="timestamp"/>
+		<property name="modifiedAt" column="MODIFIED_AT" type="timestamp"/>
+		<property name="version" column="VERSION" />
+		<property name="created" column="CREATED" />
+		<property name="modified" column="MODIFIED" />
+		<property name="deleted" column="DELETED" />
+		<property name="parentIdentifier" column="PARENT_IDENTIFIER" />
+		
+	    <many-to-one name="parent"
+                 class="kr.pragmatic.snownote.core.SnowPage"
+                 foreign-key="FK_PAGE_PARENT_ID">
+			<column name="PARENT_PAGE_ID"
+					not-null="false"/>
+		</many-to-one>
+
+		<!-- The inverse side of the one-to-many/many-to-one association, we
+         use a bag mapping, iteration order of this collection is by
+         category name. -->
+    	<bag name="children"
+				cascade="save-update, merge"
+				inverse="true">
+			<key column="PARENT_PAGE_ID"/>
+			<one-to-many class="kr.pragmatic.snownote.core.SnowPage"/>
+		</bag>
+		
+		<!-- experimental -->
+		<bag name="attachments"
+				cascade="save-update, merge, delete-orphan"
+				inverse="false">
+			<key column="PAGE_ID" />
+			<one-to-many class="kr.pragmatic.snownote.core.SnowAttachment" />
+		</bag>
+    </class>
+
+</hibernate-mapping>

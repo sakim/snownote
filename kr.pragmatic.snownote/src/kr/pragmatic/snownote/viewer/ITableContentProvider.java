@@ -1,0 +1,1 @@
+package kr.pragmatic.snownote.viewer;import org.eclipse.jface.viewers.IStructuredContentProvider;public interface ITableContentProvider extends IStructuredContentProvider {	public Object getColumnValue(Object element, int columnIndex);}
